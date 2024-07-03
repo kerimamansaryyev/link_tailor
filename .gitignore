@@ -29,4 +29,7 @@ doc/api/
 # Gazelle temporary files
 .tmp/
 
+# Project-specific
 /node_modules
+lib/src/prisma/generated/**
+prisma-query-engine

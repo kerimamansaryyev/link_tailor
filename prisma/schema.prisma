@@ -1,0 +1,17 @@
+generator client {
+  provider = "dart run orm"
+  output   = "../lib/src/prisma/generated"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Link {
+  id              String   @id @default(uuid())
+  shortened_alias String   @unique
+  original_url    String   @unique
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+}

@@ -6,7 +6,15 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  crypto: 3.0.3
+  dotenv: 4.2.0
   gazelle_core: 0.3.0
+  get_it: 7.7.0
+  injectable: 2.4.1
+  json_annotation: 4.9.0
+  json_serializable: 6.8.0
+  logger: 2.3.0
+  meta: 1.11.0
   orm: 4.4.0
 
 dev_dependencies:

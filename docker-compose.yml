@@ -1,0 +1,20 @@
+version: "3"
+services:
+
+  # Launch the db first
+  dart_tailor_database:
+    container_name: dart_tailor_database
+    hostname: tailor_db
+    image: mysql:latest
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: myPassword123
+      MYSQL_DATABASE: tailor
+      MYSQL_USER: kerim
+      MYSQL_PASSWORD: myPassword123
+
+networks:
+  dart_tailor:
+    external: true
