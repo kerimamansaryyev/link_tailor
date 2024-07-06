@@ -9,12 +9,10 @@ final class LinkTailorApp extends GazelleApp {
   LinkTailorApp._(
     this._serverInfoRetriever,
     this._logger, {
-    required String address,
-    required int port,
+    required super.address,
+    required super.port,
   }) : super(
           routes: [],
-          address: address,
-          port: port,
         );
 
   final ServerInfoRetriever _serverInfoRetriever;

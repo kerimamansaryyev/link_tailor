@@ -10,7 +10,7 @@ final class DebugServerInfoRetrieverImpl with BaseServerInfoRetrieverMixin {
   @override
   ServerInfoRetrieverServerInfoDTO selectInfoFromApp(GazelleApp app) =>
       ServerInfoRetrieverServerInfoDTO(
-        hostName: app.address,
+        hostName: 'localhost',
         scheme: ifPossibleHttps(app),
         port: app.port,
       );

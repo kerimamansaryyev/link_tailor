@@ -2,8 +2,8 @@ version: "3"
 services:
 
   # Launch the db first
-  dart_tailor_database:
-    container_name: dart_tailor_database
+  dart_link_tailor_database:
+    container_name: dart_link_tailor_database
     hostname: tailor_db
     image: mysql:latest
     restart: unless-stopped
@@ -14,6 +14,22 @@ services:
       MYSQL_DATABASE: tailor
       MYSQL_USER: kerim
       MYSQL_PASSWORD: myPassword123
+
+  # Launch this after
+  dart_link_tailor_service:
+    container_name: dart_tailor
+    hostname: dartlt
+    build:
+      dockerfile: ./Dockerfile
+      args:
+        - DATABASE_URL=mysql://kerim:myPassword123@tailor_db:3306/tailor
+    ports:
+      - "8080:8080"
+    environment:
+      - HOST=dartlt
+      - PORT=8080
+      - LINK_TAILOR_RUN_MODE=debug
+      - DATABASE_URL=mysql://kerim:myPassword123@tailor_db:3306/tailor
 
 networks:
   dart_tailor:

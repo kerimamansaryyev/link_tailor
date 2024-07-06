@@ -1,6 +1,6 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:injectable/injectable.dart';
-import 'package:link_tailor/src/app/utils/app_dot_env.dart';
+import 'package:link_tailor/src/app/util/app_dot_env.dart';
 import 'package:link_tailor/src/prisma/generated/client.dart';
 import 'package:logger/logger.dart';
 
