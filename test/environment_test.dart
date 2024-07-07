@@ -41,17 +41,21 @@ void main() {
         prepareMockDotEnv(mockDotEnv);
       });
 
-      test('Environment is "debug" when the run mode not provided', () {
+      test('When the run mode was not provided then Environment is "debug"',
+          () {
         when(mockDotEnv[runModeVariableName]).thenReturn(null);
         expect(AppEnvironment.fromDotEnv(), AppEnvironment.debug);
       });
 
-      test('Environment is "prod" when the run mode provided as "prod"', () {
-        when(mockDotEnv[runModeVariableName]).thenReturn('prod');
-        expect(AppEnvironment.fromDotEnv(), AppEnvironment.prod);
-      });
+      test(
+        'When the run mode was provided as "prod" then Environment is "prod"',
+        () {
+          when(mockDotEnv[runModeVariableName]).thenReturn('prod');
+          expect(AppEnvironment.fromDotEnv(), AppEnvironment.prod);
+        },
+      );
 
-      test('Environment is "debug" when anything else is provided', () {
+      test('When anything else was provided then Environment is "debug"', () {
         when(mockDotEnv[runModeVariableName]).thenReturn('anything234Else');
         expect(AppEnvironment.fromDotEnv(), AppEnvironment.debug);
       });
