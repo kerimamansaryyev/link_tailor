@@ -15,3 +15,12 @@ final class LinkServiceCreateLinkSucceeded
 
   final LinkServiceCreateLinkResultLinkDTO linkDTO;
 }
+
+final class LinkServiceCreateLinkFailedAliasTaken
+    implements LinkServiceCreateLinkResult {
+  const LinkServiceCreateLinkFailedAliasTaken({
+    required this.failedAlias,
+  });
+
+  final String failedAlias;
+}

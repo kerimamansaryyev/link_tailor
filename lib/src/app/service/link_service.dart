@@ -2,6 +2,6 @@ import 'package:link_tailor/src/app/service/result/link_service_create_link_resu
 
 abstract interface class LinkService {
   Future<LinkServiceCreateLinkResult> createLink({
-    required String originalUrl,
+    required Uri originalUri,
   });
 }

@@ -5,7 +5,7 @@ typedef LinkRepositoryCreateShortLinkDTO = ({
 
 abstract interface class LinkRepository {
   Future<LinkRepositoryCreateShortLinkDTO> createShortLink({
-    required String originalUrl,
+    required Uri originalUri,
     required String shortenedAlias,
   });
 }
