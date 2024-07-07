@@ -74,7 +74,7 @@ void main() {
         );
       });
       test(
-          'When originalUri is not registered and shortenedAlias registered '
+          'When originalUri is not registered and shortenedAlias is registered '
           'then throw $LinkRepositoryCreateShortLinkAliasTakenException',
           () async {
         final testOriginalUri = Uri.parse('https://google.com');
@@ -127,7 +127,7 @@ void main() {
       test(
           'When originalUri is not registered and shortenedAlias '
           'is not registered '
-          'then create it', () async {
+          'then create the link', () async {
         final testOriginalUri = Uri.parse('https://google.com');
         const testShortenedAlias = 'GOOGLE';
 
