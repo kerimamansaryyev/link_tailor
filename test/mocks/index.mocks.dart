@@ -7,6 +7,12 @@ import 'dart:async' as _i4;
 
 import 'package:dotenv/dotenv.dart' as _i5;
 import 'package:dotenv/src/parser.dart' as _i7;
+import 'package:gazelle_core/gazelle_core.dart' as _i12;
+import 'package:link_tailor/src/app/integration/link_alias_generator.dart'
+    as _i14;
+import 'package:link_tailor/src/app/integration/server_info_retriever.dart'
+    as _i11;
+import 'package:link_tailor/src/app/repository/link_repository.dart' as _i13;
 import 'package:link_tailor/src/injectable_config/register_module.dart' as _i8;
 import 'package:link_tailor/src/prisma/generated/client.dart' as _i3;
 import 'package:link_tailor/src/prisma/generated/model.dart' as _i9;
@@ -1139,4 +1145,151 @@ class MockLinkDelegate extends _i1.Mock implements _i3.LinkDelegate {
           ),
         ),
       ) as _i2.ActionClient<_i10.AggregateLink>);
+}
+
+/// A class which mocks [ServerInfoRetriever].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockServerInfoRetriever extends _i1.Mock
+    implements _i11.ServerInfoRetriever {
+  @override
+  void ensureInitialized() => super.noSuchMethod(
+        Invocation.method(
+          #ensureInitialized,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void bindOnAppBoot(_i12.GazelleApp? app) => super.noSuchMethod(
+        Invocation.method(
+          #bindOnAppBoot,
+          [app],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i11.ServerInfoRetrieverServerInfoDTO getServerInfo() => (super.noSuchMethod(
+        Invocation.method(
+          #getServerInfo,
+          [],
+        ),
+        returnValue: _i6.dummyValue<_i11.ServerInfoRetrieverServerInfoDTO>(
+          this,
+          Invocation.method(
+            #getServerInfo,
+            [],
+          ),
+        ),
+        returnValueForMissingStub:
+            _i6.dummyValue<_i11.ServerInfoRetrieverServerInfoDTO>(
+          this,
+          Invocation.method(
+            #getServerInfo,
+            [],
+          ),
+        ),
+      ) as _i11.ServerInfoRetrieverServerInfoDTO);
+}
+
+/// A class which mocks [LinkRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
+  @override
+  _i4.Future<({String originalUrl, String shortenedAlias})> createShortLink({
+    required Uri? originalUri,
+    required String? shortenedAlias,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createShortLink,
+          [],
+          {
+            #originalUri: originalUri,
+            #shortenedAlias: shortenedAlias,
+          },
+        ),
+        returnValue:
+            _i4.Future<({String originalUrl, String shortenedAlias})>.value((
+          originalUrl: _i6.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createShortLink,
+              [],
+              {
+                #originalUri: originalUri,
+                #shortenedAlias: shortenedAlias,
+              },
+            ),
+          ),
+          shortenedAlias: _i6.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createShortLink,
+              [],
+              {
+                #originalUri: originalUri,
+                #shortenedAlias: shortenedAlias,
+              },
+            ),
+          )
+        )),
+        returnValueForMissingStub:
+            _i4.Future<({String originalUrl, String shortenedAlias})>.value((
+          originalUrl: _i6.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createShortLink,
+              [],
+              {
+                #originalUri: originalUri,
+                #shortenedAlias: shortenedAlias,
+              },
+            ),
+          ),
+          shortenedAlias: _i6.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createShortLink,
+              [],
+              {
+                #originalUri: originalUri,
+                #shortenedAlias: shortenedAlias,
+              },
+            ),
+          )
+        )),
+      ) as _i4.Future<({String originalUrl, String shortenedAlias})>);
+}
+
+/// A class which mocks [LinkAliasGenerator].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLinkAliasGenerator extends _i1.Mock
+    implements _i14.LinkAliasGenerator {
+  @override
+  _i4.FutureOr<String> generateAlias(Uri? originalUri) => (super.noSuchMethod(
+        Invocation.method(
+          #generateAlias,
+          [originalUri],
+        ),
+        returnValue: _i4.Future<String>.value(_i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateAlias,
+            [originalUri],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<String>.value(_i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateAlias,
+            [originalUri],
+          ),
+        )),
+      ) as _i4.FutureOr<String>);
 }
