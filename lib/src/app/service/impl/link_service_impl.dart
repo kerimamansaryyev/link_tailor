@@ -7,7 +7,7 @@ import 'package:link_tailor/src/app/service/link_service.dart';
 import 'package:link_tailor/src/app/service/result/link_service_create_link_result.dart';
 import 'package:meta/meta.dart';
 
-@singleton
+@Singleton(as: LinkService)
 final class LinkServiceImpl implements LinkService {
   LinkServiceImpl(
     this._serverInfoRetriever,
