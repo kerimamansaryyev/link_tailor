@@ -48,7 +48,7 @@ final class LinkServiceImpl implements LinkService {
               scheme: serverInfo.scheme,
               host: serverInfo.hostName,
               port: serverInfo.port,
-              path: '/$generatedAlias',
+              path: '/${createdLink.shortenedAlias}',
             ),
           ),
         );
