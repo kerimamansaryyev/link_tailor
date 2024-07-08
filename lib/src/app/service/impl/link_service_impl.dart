@@ -27,7 +27,7 @@ final class LinkServiceImpl implements LinkService {
     required Uri originalUri,
   }) async {
     var numberOfRetries = 0;
-    Exception? expectedException;
+    Exception? occurredException;
 
     retry_loop:
     do {
@@ -55,13 +55,13 @@ final class LinkServiceImpl implements LinkService {
       } on LinkRepositoryCreateShortLinkException catch (ex) {
         switch (ex) {
           case LinkRepositoryCreateShortLinkAliasTakenException():
-            expectedException = ex;
+            occurredException = ex;
             continue retry_loop;
         }
       }
     } while (++numberOfRetries < maxNumberOfAliasGenerateRetries);
 
-    switch (expectedException) {
+    switch (occurredException) {
       case LinkRepositoryCreateShortLinkAliasTakenException(
           linkAlias: final failedAlias,
         ):
@@ -69,7 +69,7 @@ final class LinkServiceImpl implements LinkService {
           failedAlias: failedAlias,
         );
       default:
-        throw expectedException;
+        throw occurredException;
     }
   }
 }
