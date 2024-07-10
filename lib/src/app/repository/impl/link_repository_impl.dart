@@ -34,6 +34,7 @@ final class LinkRepositoryImpl
             );
             if (existingByOriginalUri != null) {
               return (
+                id: existingByOriginalUri.id!,
                 originalUrl: existingByOriginalUri.originalUrl!,
                 shortenedAlias: existingByOriginalUri.shortenedAlias!,
               );
@@ -60,6 +61,7 @@ final class LinkRepositoryImpl
               ),
             );
             return (
+              id: created.id!,
               originalUrl: created.originalUrl!,
               shortenedAlias: created.shortenedAlias!,
             );

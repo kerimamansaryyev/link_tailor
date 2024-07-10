@@ -13,6 +13,8 @@ import '../../mocks/index.mocks.dart';
 import '../../utils/default_mock_prisma_client_factory.dart';
 import '../../utils/test_action_client.dart';
 
+int _increasingRepoId = 0;
+
 void main() {
   group('LinkRepository testing', () {
     final mockPrismaClientFactory = MockPrismaClientFactory();
@@ -22,6 +24,7 @@ void main() {
     final getIt = GetIt.instance;
 
     setUpAll(() async {
+      _increasingRepoId = 0;
       mockPrismaClient = generateDefaultMockPrismaClient();
       clearInteractions(mockPrismaClient);
       clearInteractions(mockPrismaClient.$transaction);
@@ -55,6 +58,7 @@ void main() {
         ).thenAnswer(
           (_) => TestActionClient(
             Link(
+              id: _increasingRepoId.toString(),
               originalUrl: testOriginalUri.toString(),
               shortenedAlias: testShortenedAlias,
             ),
@@ -72,6 +76,7 @@ void main() {
             (testOriginalUri.toString(), testShortenedAlias),
           ),
         );
+        expect(_increasingRepoId, 0);
       });
       test(
           'When originalUri is not registered and shortenedAlias is registered '
@@ -106,6 +111,7 @@ void main() {
         ).thenAnswer(
           (_) => TestActionClient(
             Link(
+              id: _increasingRepoId.toString(),
               originalUrl: testAnotherOriginalUri.toString(),
               shortenedAlias: testShortenedAlias,
             ),
@@ -123,6 +129,7 @@ void main() {
             ),
           ),
         );
+        expect(_increasingRepoId, 0);
       });
       test(
           'When originalUri is not registered and shortenedAlias '
@@ -152,6 +159,7 @@ void main() {
 
             return TestActionClient(
               Link(
+                id: (++_increasingRepoId).toString(),
                 shortenedAlias: link.shortenedAlias,
                 originalUrl: link.originalUrl,
               ),
@@ -164,12 +172,15 @@ void main() {
           shortenedAlias: testShortenedAlias,
         );
         final actualLink = (result.originalUrl, result.shortenedAlias);
+
         expect(
           actualLink,
           equals(
             (testOriginalUri.toString(), testShortenedAlias),
           ),
         );
+
+        expect(_increasingRepoId, 1);
       });
     });
   });

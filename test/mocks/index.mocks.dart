@@ -1199,23 +1199,12 @@ class MockServerInfoRetriever extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
   @override
-  _i4.Future<({String originalUrl, String shortenedAlias})> createShortLink({
+  _i4.Future<({String id, String originalUrl, String shortenedAlias})>
+      createShortLink({
     required Uri? originalUri,
     required String? shortenedAlias,
   }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #createShortLink,
-          [],
-          {
-            #originalUri: originalUri,
-            #shortenedAlias: shortenedAlias,
-          },
-        ),
-        returnValue:
-            _i4.Future<({String originalUrl, String shortenedAlias})>.value((
-          originalUrl: _i6.dummyValue<String>(
-            this,
+          (super.noSuchMethod(
             Invocation.method(
               #createShortLink,
               [],
@@ -1224,45 +1213,88 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                 #shortenedAlias: shortenedAlias,
               },
             ),
-          ),
-          shortenedAlias: _i6.dummyValue<String>(
-            this,
-            Invocation.method(
-              #createShortLink,
-              [],
-              {
-                #originalUri: originalUri,
-                #shortenedAlias: shortenedAlias,
-              },
-            ),
-          )
-        )),
-        returnValueForMissingStub:
-            _i4.Future<({String originalUrl, String shortenedAlias})>.value((
-          originalUrl: _i6.dummyValue<String>(
-            this,
-            Invocation.method(
-              #createShortLink,
-              [],
-              {
-                #originalUri: originalUri,
-                #shortenedAlias: shortenedAlias,
-              },
-            ),
-          ),
-          shortenedAlias: _i6.dummyValue<String>(
-            this,
-            Invocation.method(
-              #createShortLink,
-              [],
-              {
-                #originalUri: originalUri,
-                #shortenedAlias: shortenedAlias,
-              },
-            ),
-          )
-        )),
-      ) as _i4.Future<({String originalUrl, String shortenedAlias})>);
+            returnValue: _i4.Future<
+                ({
+                  String id,
+                  String originalUrl,
+                  String shortenedAlias
+                })>.value((
+              id: _i6.dummyValue<String>(
+                this,
+                Invocation.method(
+                  #createShortLink,
+                  [],
+                  {
+                    #originalUri: originalUri,
+                    #shortenedAlias: shortenedAlias,
+                  },
+                ),
+              ),
+              originalUrl: _i6.dummyValue<String>(
+                this,
+                Invocation.method(
+                  #createShortLink,
+                  [],
+                  {
+                    #originalUri: originalUri,
+                    #shortenedAlias: shortenedAlias,
+                  },
+                ),
+              ),
+              shortenedAlias: _i6.dummyValue<String>(
+                this,
+                Invocation.method(
+                  #createShortLink,
+                  [],
+                  {
+                    #originalUri: originalUri,
+                    #shortenedAlias: shortenedAlias,
+                  },
+                ),
+              )
+            )),
+            returnValueForMissingStub: _i4.Future<
+                ({
+                  String id,
+                  String originalUrl,
+                  String shortenedAlias
+                })>.value((
+              id: _i6.dummyValue<String>(
+                this,
+                Invocation.method(
+                  #createShortLink,
+                  [],
+                  {
+                    #originalUri: originalUri,
+                    #shortenedAlias: shortenedAlias,
+                  },
+                ),
+              ),
+              originalUrl: _i6.dummyValue<String>(
+                this,
+                Invocation.method(
+                  #createShortLink,
+                  [],
+                  {
+                    #originalUri: originalUri,
+                    #shortenedAlias: shortenedAlias,
+                  },
+                ),
+              ),
+              shortenedAlias: _i6.dummyValue<String>(
+                this,
+                Invocation.method(
+                  #createShortLink,
+                  [],
+                  {
+                    #originalUri: originalUri,
+                    #shortenedAlias: shortenedAlias,
+                  },
+                ),
+              )
+            )),
+          ) as _i4.Future<
+              ({String id, String originalUrl, String shortenedAlias})>);
 }
 
 /// A class which mocks [LinkAliasGenerator].

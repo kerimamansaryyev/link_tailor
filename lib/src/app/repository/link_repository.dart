@@ -1,4 +1,5 @@
 typedef LinkRepositoryCreateShortLinkDTO = ({
+  String id,
   String shortenedAlias,
   String originalUrl,
 });

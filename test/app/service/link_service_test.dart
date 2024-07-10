@@ -12,6 +12,8 @@ import 'package:test/test.dart';
 
 import '../../mocks/index.mocks.dart';
 
+int _increasingLinkRepoId = 0;
+
 typedef _CreateLinkRepeatTestCase = ({
   String testCaseName,
   void Function({
@@ -26,10 +28,11 @@ typedef _CreateLinkRepeatTestCase = ({
 
 final class _UnexpectedException implements Exception {}
 
-Future<LinkRepositoryCreateShortLinkDTO> _defaultRepoAnswer(
+Future<LinkRepositoryCreateShortLinkDTO> _defaultCreateLinkAnswer(
   Invocation invocation,
 ) async =>
     (
+      id: (++_increasingLinkRepoId).toString(),
       originalUrl: (invocation.namedArguments[#originalUri] as Uri).toString(),
       shortenedAlias: invocation.namedArguments[#shortenedAlias] as String,
     );
@@ -46,6 +49,7 @@ void main() {
       final getIt = GetIt.instance;
 
       setUp(() async {
+        _increasingLinkRepoId = 0;
         clearInteractions(mockLinkRepo);
         clearInteractions(mockServerInfoRetriever);
         clearInteractions(mockLinkAliasGenerator);
@@ -94,13 +98,14 @@ void main() {
                   originalUri: argThat(isNotNull, named: 'originalUri'),
                   shortenedAlias: argThat(isNotNull, named: 'shortenedAlias'),
                 ),
-              ).thenAnswer(_defaultRepoAnswer);
+              ).thenAnswer(_defaultCreateLinkAnswer);
 
               final expectedOriginalUri = Uri.parse('https://netflix.com');
               final expectedResultUri = Uri.parse(
                 '$testScheme://$testServerHost:$testPort/$testAlias',
               );
               final expectedLinkRepoDTO = (
+                id: (_increasingLinkRepoId + 1).toString(),
                 originalUrl: expectedOriginalUri.toString(),
                 shortenedAlias: testAlias,
               );
@@ -147,7 +152,7 @@ void main() {
                           linkAlias: invocation.namedArguments[#shortenedAlias]
                               as String,
                         )
-                      : _defaultRepoAnswer(invocation),
+                      : _defaultCreateLinkAnswer(invocation),
                 );
               }
 
@@ -232,6 +237,7 @@ void main() {
                   rethrow;
                 }
               }
+              expect(_increasingLinkRepoId, 2);
             },
           );
           test(
@@ -278,7 +284,7 @@ void main() {
                   originalUri: argThat(isNotNull, named: 'originalUri'),
                   shortenedAlias: argThat(isNotNull, named: 'shortenedAlias'),
                 ),
-              ).thenAnswer(_defaultRepoAnswer);
+              ).thenAnswer(_defaultCreateLinkAnswer);
               when(
                 mockServerInfoRetriever.getServerInfo(),
               ).thenAnswer((_) => throw _UnexpectedException());
