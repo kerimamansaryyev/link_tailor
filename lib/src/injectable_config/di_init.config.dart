@@ -13,7 +13,8 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:logger/logger.dart' as _i5;
 
-import '../app/app.dart' as _i15;
+import '../app/app.dart' as _i18;
+import '../app/controller/link_controller.dart' as _i17;
 import '../app/integration/environment_resolver.dart' as _i8;
 import '../app/integration/impl/debug_server_info_retriever_impl.dart' as _i14;
 import '../app/integration/impl/environment_resolver_impl.dart' as _i9;
@@ -23,8 +24,8 @@ import '../app/integration/link_alias_generator.dart' as _i6;
 import '../app/integration/server_info_retriever.dart' as _i10;
 import '../app/repository/impl/link_repository_impl.dart' as _i13;
 import '../app/repository/link_repository.dart' as _i12;
-import '../app/service/impl/link_service_impl.dart' as _i17;
-import '../app/service/link_service.dart' as _i16;
+import '../app/service/impl/link_service_impl.dart' as _i16;
+import '../app/service/link_service.dart' as _i15;
 import 'register_module.dart' as _i3;
 
 const String _prod = 'prod';
@@ -58,19 +59,22 @@ extension GetItInjectableX on _i1.GetIt {
       () => _i14.DebugServerInfoRetrieverImpl(),
       registerFor: {_debug},
     );
-    await gh.singletonAsync<_i15.LinkTailorApp>(
-      () => _i15.LinkTailorApp.init(
-        gh<_i10.ServerInfoRetriever>(),
-        gh<_i8.EnvironmentResolver>(),
-        gh<_i5.Logger>(),
-      ),
-      preResolve: true,
-    );
-    gh.singleton<_i16.LinkService>(() => _i17.LinkServiceImpl(
+    gh.singleton<_i15.LinkService>(() => _i16.LinkServiceImpl(
           gh<_i10.ServerInfoRetriever>(),
           gh<_i12.LinkRepository>(),
           gh<_i6.LinkAliasGenerator>(),
         ));
+    gh.singleton<_i17.LinkController>(
+        () => _i17.LinkController(gh<_i15.LinkService>()));
+    await gh.singletonAsync<_i18.LinkTailorApp>(
+      () => _i18.LinkTailorApp.init(
+        gh<_i10.ServerInfoRetriever>(),
+        gh<_i8.EnvironmentResolver>(),
+        gh<_i5.Logger>(),
+        gh<_i17.LinkController>(),
+      ),
+      preResolve: true,
+    );
     return this;
   }
 }
