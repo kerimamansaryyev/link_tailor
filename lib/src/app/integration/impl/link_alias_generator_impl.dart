@@ -19,32 +19,7 @@ final class LinkAliasGeneratorImpl implements LinkAliasGenerator {
   @visibleForTesting
   static const aliasWhiteListPattern = r'^[A-HJ-NP-Z]+$';
   @visibleForTesting
-  static const allowedCharacters = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'P',
-    'Q',
-    'R',
-    'S',
-    'T',
-    'U',
-    'V',
-    'W',
-    'X',
-    'Y',
-    'Z',
-  ];
+  static const allowedCharacters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
 
   final Utf8CodecFactory _utfCodecFactory;
   final Sha256Encryptor _sha256encryptor;
