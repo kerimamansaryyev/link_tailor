@@ -13,7 +13,8 @@ final class InputValidationException<R> implements Exception {
 
   @override
   String toString() {
-    return 'InputValidationException{failedInput: $failedInput, validatorName: $validatorName}';
+    return 'InputValidationException{failedInput: $failedInput, '
+        'validatorName: $validatorName}';
   }
 }
 

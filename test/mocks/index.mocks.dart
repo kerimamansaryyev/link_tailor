@@ -4,6 +4,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
+import 'dart:convert' as _i17;
+import 'dart:typed_data' as _i16;
 
 import 'package:dotenv/dotenv.dart' as _i5;
 import 'package:dotenv/src/parser.dart' as _i7;
@@ -12,6 +14,7 @@ import 'package:link_tailor/src/app/integration/link_alias_generator.dart'
     as _i14;
 import 'package:link_tailor/src/app/integration/server_info_retriever.dart'
     as _i11;
+import 'package:link_tailor/src/app/integration/sha_256_encryptor.dart' as _i15;
 import 'package:link_tailor/src/app/repository/link_repository.dart' as _i13;
 import 'package:link_tailor/src/injectable_config/register_module.dart' as _i8;
 import 'package:link_tailor/src/prisma/generated/client.dart' as _i3;
@@ -1324,4 +1327,58 @@ class MockLinkAliasGenerator extends _i1.Mock
           ),
         )),
       ) as _i4.FutureOr<String>);
+}
+
+/// A class which mocks [Sha256Encryptor].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSha256Encryptor extends _i1.Mock implements _i15.Sha256Encryptor {
+  @override
+  String call(_i16.Uint8List? utf8EncodedString) => (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [utf8EncodedString],
+        ),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #call,
+            [utf8EncodedString],
+          ),
+        ),
+        returnValueForMissingStub: _i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #call,
+            [utf8EncodedString],
+          ),
+        ),
+      ) as String);
+}
+
+/// A class which mocks [Utf8CodecFactory].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUtf8CodecFactory extends _i1.Mock implements _i8.Utf8CodecFactory {
+  @override
+  _i17.Utf8Codec call() => (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [],
+        ),
+        returnValue: _i6.dummyValue<_i17.Utf8Codec>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        ),
+        returnValueForMissingStub: _i6.dummyValue<_i17.Utf8Codec>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        ),
+      ) as _i17.Utf8Codec);
 }

@@ -212,6 +212,13 @@
             </list>
           </value>
         </entry>
+        <entry key="hotreloader">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/hotreloader-4.2.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="http_multi_server">
           <value>
             <list>
@@ -538,6 +545,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/vm_service-11.10.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/vm_service-14.2.4/lib" />
             </list>
           </value>
         </entry>
@@ -616,6 +624,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/get_it-7.7.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/glob-2.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/graphs-2.3.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/hotreloader-4.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/http_multi_server-3.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/http_parser-4.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/injectable-2.4.1/lib" />
@@ -663,6 +672,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/typed_data-1.3.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/very_good_analysis-6.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/vm_service-11.10.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/vm_service-14.2.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/watcher-1.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/web-0.5.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.5/lib" />
