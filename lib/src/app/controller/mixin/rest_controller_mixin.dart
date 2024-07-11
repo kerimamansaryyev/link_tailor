@@ -40,6 +40,12 @@ mixin RestControllerMixin {
       );
     }
 
-    return await responseDispatcher(transformedRequest);
+    try {
+      return await responseDispatcher(transformedRequest);
+    } catch (ex) {
+      return JsonResponseAdapter.unexpected(
+        ex.toString(),
+      );
+    }
   }
 }

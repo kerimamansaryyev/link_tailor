@@ -30,6 +30,7 @@ const _$ErrorResponseCodeEnumMap = {
   ErrorResponseCode.aliasAlreadyTaken: 'aliasAlreadyTaken',
   ErrorResponseCode.invalidRequestFormat: 'invalidRequestFormat',
   ErrorResponseCode.invalidInput: 'invalidInput',
+  ErrorResponseCode.unexpected: 'unexpected',
 };
 
 $Rec _$recordConvert<$Rec>(

@@ -44,6 +44,19 @@ extension type JsonResponseAdapter<T extends BaseResponse>._(
           ),
         ),
       );
+
+  static JsonResponseAdapter unexpected(
+    dynamic exception,
+  ) =>
+      JsonResponseAdapter<ErrorResponse>(
+        statusCode: const GazelleHttpStatusCode.custom(500),
+        body: ErrorResponse(
+          (
+            errorCode: ErrorResponseCode.unexpected,
+            exceptionMessage: exception.toString(),
+          ),
+        ),
+      );
 }
 
 typedef ErrorResponseData = ({
