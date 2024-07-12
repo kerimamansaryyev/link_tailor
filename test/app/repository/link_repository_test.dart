@@ -24,7 +24,7 @@ void main() {
     late LinkRepositoryImpl linkRepositoryImpl;
     final getIt = GetIt.instance;
 
-    setUpAll(() async {
+    setUp(() async {
       _increasingRepoId = 0;
       mockPrismaClient = generateDefaultMockPrismaClient();
       clearInteractions(mockPrismaClient);

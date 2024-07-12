@@ -5,6 +5,7 @@ import 'package:link_tailor/src/app/repository/exception/link_repository_create_
 import 'package:link_tailor/src/app/repository/link_repository.dart';
 import 'package:link_tailor/src/app/service/link_service.dart';
 import 'package:link_tailor/src/app/service/result/link_service_create_link_result.dart';
+import 'package:link_tailor/src/app/service/result/link_service_get_link_by_alias_result.dart';
 import 'package:meta/meta.dart';
 
 @Singleton(as: LinkService)
@@ -71,5 +72,22 @@ final class LinkServiceImpl implements LinkService {
       default:
         throw occurredException;
     }
+  }
+
+  @override
+  Future<LinkServiceGetLinkByAliasResult> getLinkByAlias({
+    required String alias,
+  }) async {
+    final result = await _linkRepository.getShortLinkByAlias(
+      alias: alias,
+    );
+
+    if (result == null) {
+      return const LinkServiceGetLinkByAliasDoesNotExist();
+    }
+
+    return LinkServiceGetLinkByAliasSucceeded(
+      link: result,
+    );
   }
 }

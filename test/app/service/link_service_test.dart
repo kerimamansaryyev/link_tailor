@@ -6,6 +6,7 @@ import 'package:link_tailor/src/app/repository/link_repository.dart';
 import 'package:link_tailor/src/app/service/impl/link_service_impl.dart';
 import 'package:link_tailor/src/app/service/link_service.dart';
 import 'package:link_tailor/src/app/service/result/link_service_create_link_result.dart';
+import 'package:link_tailor/src/app/service/result/link_service_get_link_by_alias_result.dart';
 import 'package:logger/logger.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -64,6 +65,79 @@ void main() {
         await getIt.allReady();
         linkServiceImpl = getIt<LinkService>();
       });
+
+      group(
+        'Get Link By alias testing',
+        () {
+          final (testScheme, testServerHost, testPort) =
+              ('http', 'google', 8080);
+          final testServerInfoDTO = ServerInfoRetrieverServerInfoDTO(
+            hostName: testServerHost,
+            scheme: testScheme,
+            port: testPort,
+          );
+
+          setUp(() {
+            provideDummy<ServerInfoRetrieverServerInfoDTO>(testServerInfoDTO);
+            when(mockServerInfoRetriever.getServerInfo())
+                .thenReturn(testServerInfoDTO);
+          });
+
+          test(
+            'When finds the link by alias, '
+            'then return the $LinkServiceGetLinkByAliasSucceeded, '
+            'else return $LinkServiceGetLinkByAliasDoesNotExist',
+            () {
+              const existing = (
+                id: '1',
+                alias: 'existing',
+                expectedUrl: 'https://google.com',
+              );
+              const nonExisting = (
+                id: '2',
+                alias: 'nonExisting',
+                expectedUrl: 'https://saddness.com',
+              );
+
+              when(
+                mockLinkRepo.getShortLinkByAlias(
+                  alias: existing.alias,
+                ),
+              ).thenAnswer(
+                (_) async => (
+                  id: existing.id,
+                  originalUrl: existing.expectedUrl,
+                ),
+              );
+
+              when(
+                mockLinkRepo.getShortLinkByAlias(
+                  alias: nonExisting.alias,
+                ),
+              ).thenAnswer(
+                (_) async => null,
+              );
+
+              expectLater(
+                linkServiceImpl.getLinkByAlias(alias: existing.alias),
+                completion(
+                  predicate<LinkServiceGetLinkByAliasSucceeded>(
+                    (obj) =>
+                        obj.link.id == existing.id &&
+                        obj.link.originalUrl == existing.expectedUrl,
+                  ),
+                ),
+              );
+              expectLater(
+                linkServiceImpl.getLinkByAlias(alias: nonExisting.alias),
+                completion(
+                  isA<LinkServiceGetLinkByAliasDoesNotExist>(),
+                ),
+              );
+            },
+          );
+        },
+      );
 
       group(
         'Create Link testing',

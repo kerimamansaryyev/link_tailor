@@ -1298,6 +1298,20 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
             )),
           ) as _i4.Future<
               ({String id, String originalUrl, String shortenedAlias})>);
+
+  @override
+  _i4.Future<({String id, String originalUrl})?> getShortLinkByAlias(
+          {required String? alias}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getShortLinkByAlias,
+          [],
+          {#alias: alias},
+        ),
+        returnValue: _i4.Future<({String id, String originalUrl})?>.value(),
+        returnValueForMissingStub:
+            _i4.Future<({String id, String originalUrl})?>.value(),
+      ) as _i4.Future<({String id, String originalUrl})?>);
 }
 
 /// A class which mocks [LinkAliasGenerator].
