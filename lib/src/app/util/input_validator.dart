@@ -39,12 +39,14 @@ final class InputValidator<T, R> {
     return result;
   }
 
-  static InputValidator<Uri, String> uriValidator(String validatorName) =>
+  static InputValidator<Uri, String?> uriValidator(String validatorName) =>
       InputValidator(
         validatorName: validatorName,
         expectDelegate: (input) {
-          input = input.trim();
-          if (input.isEmpty || !RegExp(uriPattern).hasMatch(input)) {
+          input = input?.trim();
+          if (input == null ||
+              input.isEmpty ||
+              !RegExp(uriPattern).hasMatch(input)) {
             return null;
           }
           return Uri.tryParse(input);
