@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:link_tailor/src/app/integration/link_alias_generator.dart';
+import 'package:link_tailor/src/app/integration/link_url_hash_generator.dart';
 import 'package:link_tailor/src/app/integration/server_info_retriever.dart';
 import 'package:link_tailor/src/app/repository/exception/link_repository_create_short_link_exception.dart';
 import 'package:link_tailor/src/app/repository/link_repository.dart';
@@ -47,10 +48,12 @@ void main() {
       final mockLinkRepo = MockLinkRepository();
       final mockServerInfoRetriever = MockServerInfoRetriever();
       final mockLinkAliasGenerator = MockLinkAliasGenerator();
+      final mockLinkHashGenerator = MockLinkUrlHashGenerator();
       final getIt = GetIt.instance;
 
       setUp(() async {
         _increasingLinkRepoId = 0;
+        clearInteractions(mockLinkHashGenerator);
         clearInteractions(mockLinkRepo);
         clearInteractions(mockServerInfoRetriever);
         clearInteractions(mockLinkAliasGenerator);
@@ -60,6 +63,7 @@ void main() {
             mockServerInfoRetriever,
             mockLinkRepo,
             mockLinkAliasGenerator,
+            mockLinkHashGenerator,
           ),
         );
         await getIt.allReady();
@@ -146,6 +150,7 @@ void main() {
           final (testScheme, testServerHost, testPort) =
               ('http', 'google', 8080);
           const testAlias = 'randomAlias';
+          const testHash = 'someHash';
           final testServerInfoDTO = ServerInfoRetrieverServerInfoDTO(
             hostName: testServerHost,
             scheme: testScheme,
@@ -159,6 +164,10 @@ void main() {
                 .thenAnswer(
               (inv) async => testAlias,
             );
+            when(mockLinkHashGenerator.generateHash(argThat(isNotNull)))
+                .thenAnswer(
+              (inv) async => testHash,
+            );
             when(mockServerInfoRetriever.getServerInfo())
                 .thenReturn(testServerInfoDTO);
           });
@@ -170,6 +179,7 @@ void main() {
             () async {
               when(
                 mockLinkRepo.createShortLink(
+                  originalUrlHash: argThat(isNotNull, named: 'originalUrlHash'),
                   originalUri: argThat(isNotNull, named: 'originalUri'),
                   shortenedAlias: argThat(isNotNull, named: 'shortenedAlias'),
                 ),
@@ -218,6 +228,7 @@ void main() {
 
                 when(
                   mockLinkRepo.createShortLink(
+                    originalUrlHash: testHash,
                     originalUri: argThat(isNotNull, named: 'originalUri'),
                     shortenedAlias: argThat(isNotNull, named: 'shortenedAlias'),
                   ),
@@ -301,6 +312,7 @@ void main() {
                   ).called(testCase.aliasGeneratorMatcher);
                   verify(
                     mockLinkRepo.createShortLink(
+                      originalUrlHash: testHash,
                       originalUri: testUri,
                       shortenedAlias: testAlias,
                     ),
@@ -313,6 +325,21 @@ void main() {
                 }
               }
               expect(_increasingLinkRepoId, 2);
+            },
+          );
+          test(
+            'When unexpected exception is thrown by $LinkUrlHashGenerator '
+            'component '
+            'then escape immediately',
+            () {
+              when(mockLinkHashGenerator.generateHash(any))
+                  .thenAnswer((_) => throw _UnexpectedException());
+              expectLater(
+                linkServiceImpl.createLink(
+                  originalUri: Uri.parse('https://netflix.com'),
+                ),
+                throwsA(isA<_UnexpectedException>()),
+              );
             },
           );
           test(
@@ -337,6 +364,7 @@ void main() {
             () {
               when(
                 mockLinkRepo.createShortLink(
+                  originalUrlHash: testHash,
                   originalUri: anyNamed('originalUri'),
                   shortenedAlias: anyNamed('shortenedAlias'),
                 ),
@@ -356,6 +384,7 @@ void main() {
             () {
               when(
                 mockLinkRepo.createShortLink(
+                  originalUrlHash: testHash,
                   originalUri: argThat(isNotNull, named: 'originalUri'),
                   shortenedAlias: argThat(isNotNull, named: 'shortenedAlias'),
                 ),

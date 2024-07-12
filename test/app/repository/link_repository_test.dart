@@ -47,6 +47,7 @@ void main() {
         'When alias is not registered, then return null, otherwise return link',
         () async {
           const testAlias = 'someAlias';
+          const testHash = 'someHash';
           final aliasMap = <String, Link>{};
           final testUri = Uri.parse('https://google.com');
 
@@ -65,6 +66,7 @@ void main() {
                 id: (++_increasingRepoId).toString(),
                 shortenedAlias: link.shortenedAlias,
                 originalUrl: link.originalUrl,
+                originalUrlHash: link.originalUrlHash,
               );
 
               aliasMap[result.shortenedAlias!] = result;
@@ -87,6 +89,7 @@ void main() {
           });
 
           await linkRepositoryImpl.createShortLink(
+            originalUrlHash: testHash,
             originalUri: testUri,
             shortenedAlias: testAlias,
           );
@@ -118,21 +121,23 @@ void main() {
       test('When originalUri is already registered then return it', () async {
         final testOriginalUri = Uri.parse('https://google.com');
         const testShortenedAlias = 'GOOGLE';
+        const testHash = 'testHash';
 
         when(
           mockLinkDelegate.findUnique(
             where: argThat(
               predicate<LinkWhereUniqueInput>(
-                (obj) => obj.originalUrl == testOriginalUri.toString(),
+                (obj) => obj.originalUrlHash == testHash,
               ),
               named: 'where',
             ),
           ),
         ).thenAnswer(
-          (_) => TestActionClient(
+          (invocation) => TestActionClient(
             Link(
               id: _increasingRepoId.toString(),
               originalUrl: testOriginalUri.toString(),
+              originalUrlHash: testHash,
               shortenedAlias: testShortenedAlias,
             ),
           ),
@@ -140,6 +145,7 @@ void main() {
 
         final result = await linkRepositoryImpl.createShortLink(
           originalUri: testOriginalUri,
+          originalUrlHash: testHash,
           shortenedAlias: testShortenedAlias,
         );
         final actualLink = (result.originalUrl, result.shortenedAlias);
@@ -158,12 +164,13 @@ void main() {
         final testOriginalUri = Uri.parse('https://google.com');
         final testAnotherOriginalUri = Uri.parse('https://some.other.url');
         const testShortenedAlias = 'GOOGLE';
+        const testHash = 'someHash';
 
         when(
           mockLinkDelegate.findUnique(
             where: argThat(
               predicate<LinkWhereUniqueInput>(
-                (obj) => obj.originalUrl == testOriginalUri.toString(),
+                (obj) => obj.originalUrlHash == testHash,
               ),
               named: 'where',
             ),
@@ -186,6 +193,7 @@ void main() {
             Link(
               id: _increasingRepoId.toString(),
               originalUrl: testAnotherOriginalUri.toString(),
+              originalUrlHash: testHash,
               shortenedAlias: testShortenedAlias,
             ),
           ),
@@ -194,6 +202,7 @@ void main() {
         await expectLater(
           linkRepositoryImpl.createShortLink(
             originalUri: testOriginalUri,
+            originalUrlHash: testHash,
             shortenedAlias: testShortenedAlias,
           ),
           throwsA(
@@ -210,6 +219,7 @@ void main() {
           'then create the link', () async {
         final testOriginalUri = Uri.parse('https://google.com');
         const testShortenedAlias = 'GOOGLE';
+        const testHash = 'testHash';
 
         when(
           mockLinkDelegate.findUnique(
@@ -235,6 +245,7 @@ void main() {
                 id: (++_increasingRepoId).toString(),
                 shortenedAlias: link.shortenedAlias,
                 originalUrl: link.originalUrl,
+                originalUrlHash: testHash,
               ),
             );
           },
@@ -243,6 +254,7 @@ void main() {
         final result = await linkRepositoryImpl.createShortLink(
           originalUri: testOriginalUri,
           shortenedAlias: testShortenedAlias,
+          originalUrlHash: testHash,
         );
         final actualLink = (result.originalUrl, result.shortenedAlias);
 
