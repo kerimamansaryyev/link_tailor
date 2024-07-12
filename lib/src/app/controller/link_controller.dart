@@ -1,6 +1,7 @@
 import 'package:gazelle_core/gazelle_core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:link_tailor/src/app/controller/mixin/rest_controller_mixin.dart';
+import 'package:link_tailor/src/app/controller/mixin/telegram_controller_mixin.dart';
 import 'package:link_tailor/src/app/controller/request/request.dart';
 import 'package:link_tailor/src/app/controller/response/error_response_code.dart';
 import 'package:link_tailor/src/app/controller/response/response.dart';
@@ -21,7 +22,7 @@ final class _CreateLinkRequestWithUri {
 }
 
 @singleton
-final class LinkController with RestControllerMixin {
+final class LinkController with RestControllerMixin, TelegramControllerMixin {
   LinkController(this._linkService);
 
   final LinkService _linkService;
@@ -61,29 +62,34 @@ final class LinkController with RestControllerMixin {
   Future<TelegramReply> createLinkFromTelegramCommand(
     TelegramBotCommandEvent commandEvent,
   ) async {
-    try {
-      final extractedUrlArg =
-          InputValidator.uriValidator('url_validator').expectDangerously(
-        commandEvent.context.args.elementAtOrNull(0),
-      );
+    return handleCommand(
+      commandEvent: commandEvent,
+      replyDispatcher: (commandEvent) async {
+        try {
+          final extractedUrlArg =
+              InputValidator.uriValidator('url_validator').expectDangerously(
+            commandEvent.context.args.elementAtOrNull(0),
+          );
 
-      return switch (await _linkService.createLink(
-        originalUri: extractedUrlArg,
-      )) {
-        LinkServiceCreateLinkSucceeded(linkDTO: final link) =>
-          CreateLinkTelegramReply(link.generatedFullUri.toString()),
-        LinkServiceCreateLinkFailedAliasTaken() => ErrorTelegramReply(
-            errorResponseCode: ErrorResponseCode.aliasAlreadyTaken,
-          ),
-      };
-    } on InputValidationException<dynamic> catch (exception) {
-      if (exception.validatorName == 'url_validator') {
-        return TelegramReplySimpleTextMessage(
-          text: 'Entered url "${exception.failedInput}" is not valid url.',
-        );
-      }
-      rethrow;
-    }
+          return switch (await _linkService.createLink(
+            originalUri: extractedUrlArg,
+          )) {
+            LinkServiceCreateLinkSucceeded(linkDTO: final link) =>
+              CreateLinkTelegramReply(link.generatedFullUri.toString()),
+            LinkServiceCreateLinkFailedAliasTaken() => ErrorTelegramReply(
+                errorResponseCode: ErrorResponseCode.aliasAlreadyTaken,
+              ),
+          };
+        } on InputValidationException<dynamic> catch (exception) {
+          if (exception.validatorName == 'url_validator') {
+            return TelegramReplySimpleTextMessage(
+              text: 'Entered url "${exception.failedInput}" is not valid url.',
+            );
+          }
+          rethrow;
+        }
+      },
+    );
   }
 
   Future<JsonResponseAdapter> createLink(
