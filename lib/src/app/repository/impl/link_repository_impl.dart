@@ -68,4 +68,25 @@ final class LinkRepositoryImpl
           },
         ),
       );
+
+  @override
+  Future<LinkRepositoryGetLinkByAliasDTO?> getShortLinkByAlias({
+    required String alias,
+  }) =>
+      preventConnectionLeak(
+        () async {
+          final result = await currentPrismaClient.link.findUnique(
+            where: LinkWhereUniqueInput(
+              shortenedAlias: alias,
+            ),
+          );
+          if (result == null) {
+            return null;
+          }
+          return (
+            id: result.id!,
+            originalUrl: result.originalUrl!,
+          );
+        },
+      );
 }

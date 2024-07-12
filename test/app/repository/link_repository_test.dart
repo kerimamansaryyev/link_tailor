@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:link_tailor/src/app/repository/exception/link_repository_create_short_link_exception.dart';
 import 'package:link_tailor/src/app/repository/impl/link_repository_impl.dart';
+import 'package:link_tailor/src/app/repository/link_repository.dart';
 import 'package:link_tailor/src/injectable_config/di_init.dart';
 import 'package:link_tailor/src/injectable_config/register_module.dart';
 import 'package:link_tailor/src/prisma/generated/model.dart';
@@ -39,6 +40,78 @@ void main() {
       await appServiceLocator.allReady();
       linkRepositoryImpl =
           LinkRepositoryImpl(appServiceLocator<PrismaClientFactory>());
+    });
+
+    group('Get link by Alias testing', () {
+      test(
+        'When alias is not registered, then return null, otherwise return link',
+        () async {
+          const testAlias = 'someAlias';
+          final aliasMap = <String, Link>{};
+          final testUri = Uri.parse('https://google.com');
+
+          when(
+            mockLinkDelegate.create(
+              data: anyNamed('data'),
+            ),
+          ).thenAnswer(
+            (invocation) {
+              final data = invocation.namedArguments[#data]
+                  as PrismaUnion<LinkCreateInput, LinkUncheckedCreateInput>;
+
+              final link = data.$1!;
+
+              final result = Link(
+                id: (++_increasingRepoId).toString(),
+                shortenedAlias: link.shortenedAlias,
+                originalUrl: link.originalUrl,
+              );
+
+              aliasMap[result.shortenedAlias!] = result;
+
+              return TestActionClient(result);
+            },
+          );
+
+          when(
+            mockLinkDelegate.findUnique(
+              where: anyNamed('where'),
+            ),
+          ).thenAnswer((invocation) {
+            final whereClause =
+                invocation.namedArguments[#where] as LinkWhereUniqueInput;
+
+            return TestActionClient(
+              aliasMap[whereClause.shortenedAlias],
+            );
+          });
+
+          await linkRepositoryImpl.createShortLink(
+            originalUri: testUri,
+            shortenedAlias: testAlias,
+          );
+
+          await expectLater(
+            linkRepositoryImpl.getShortLinkByAlias(alias: testAlias),
+            completion(
+              predicate<LinkRepositoryGetLinkByAliasDTO>(
+                (obj) =>
+                    obj.id == _increasingRepoId.toString() &&
+                    obj.originalUrl == testUri.toString(),
+              ),
+            ),
+          );
+
+          const neverExisted = 'neverExistedAlias';
+
+          await expectLater(
+            linkRepositoryImpl.getShortLinkByAlias(alias: neverExisted),
+            completion(
+              isNull,
+            ),
+          );
+        },
+      );
     });
 
     group('Create link testing', () {
