@@ -4,7 +4,7 @@ services:
   # Launch the db first
   dart_link_tailor_database:
     container_name: dart_link_tailor_database
-    hostname: tailor_db
+    hostname: tailordb
     image: mysql:latest
     restart: unless-stopped
     ports:
@@ -22,14 +22,15 @@ services:
     build:
       dockerfile: ./Dockerfile
       args:
-        - DATABASE_URL=mysql://kerim:myPassword123@tailor_db:3306/tailor
+        - DATABASE_URL=mysql://kerim:myPassword123@tailordb:3306/tailor
     ports:
       - "8080:8080"
     environment:
+      - TELEGRAM_API_TOKEN=YOUR_API_TOKEN
       - HOST=dartlt
       - PORT=8080
       - LINK_TAILOR_RUN_MODE=debug
-      - DATABASE_URL=mysql://kerim:myPassword123@tailor_db:3306/tailor
+      - DATABASE_URL=mysql://kerim:myPassword123@tailordb:3306/tailor
 
 networks:
   dart_tailor:

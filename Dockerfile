@@ -40,9 +40,12 @@ COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /app/bin/
 COPY --from=build /app/prisma-query-engine /app/bin/
 
+WORKDIR /app/bin/
+
 ENV HOST = "localhost"
 ENV LINK_TAILOR_RUN_MODE = "prod"
 ENV PORT = 8080
 ENV DATABASE_URL = ""
+ENV TELEGRAM_API_TOKEN = ""
 
 CMD ["/app/bin/server"]
