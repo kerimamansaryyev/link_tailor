@@ -9,9 +9,10 @@ datasource db {
 }
 
 model Link {
-  id              String   @id @default(uuid())
-  shortened_alias String   @unique
-  original_url    String   @unique
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+  id                String   @id @default(uuid())
+  shortened_alias   String   @unique
+  original_url      String   @db.VarChar(1024)
+  original_url_hash String   @unique
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 }

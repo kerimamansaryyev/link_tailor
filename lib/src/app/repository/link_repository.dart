@@ -12,6 +12,7 @@ typedef LinkRepositoryGetLinkByAliasDTO = ({
 abstract interface class LinkRepository {
   Future<LinkRepositoryCreateShortLinkDTO> createShortLink({
     required Uri originalUri,
+    required String originalUrlHash,
     required String shortenedAlias,
   });
 

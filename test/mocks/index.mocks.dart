@@ -1205,6 +1205,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
   _i4.Future<({String id, String originalUrl, String shortenedAlias})>
       createShortLink({
     required Uri? originalUri,
+    required String? originalUrlHash,
     required String? shortenedAlias,
   }) =>
           (super.noSuchMethod(
@@ -1213,6 +1214,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
               [],
               {
                 #originalUri: originalUri,
+                #originalUrlHash: originalUrlHash,
                 #shortenedAlias: shortenedAlias,
               },
             ),
@@ -1229,6 +1231,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                   [],
                   {
                     #originalUri: originalUri,
+                    #originalUrlHash: originalUrlHash,
                     #shortenedAlias: shortenedAlias,
                   },
                 ),
@@ -1240,6 +1243,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                   [],
                   {
                     #originalUri: originalUri,
+                    #originalUrlHash: originalUrlHash,
                     #shortenedAlias: shortenedAlias,
                   },
                 ),
@@ -1251,6 +1255,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                   [],
                   {
                     #originalUri: originalUri,
+                    #originalUrlHash: originalUrlHash,
                     #shortenedAlias: shortenedAlias,
                   },
                 ),
@@ -1269,6 +1274,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                   [],
                   {
                     #originalUri: originalUri,
+                    #originalUrlHash: originalUrlHash,
                     #shortenedAlias: shortenedAlias,
                   },
                 ),
@@ -1280,6 +1286,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                   [],
                   {
                     #originalUri: originalUri,
+                    #originalUrlHash: originalUrlHash,
                     #shortenedAlias: shortenedAlias,
                   },
                 ),
@@ -1291,6 +1298,7 @@ class MockLinkRepository extends _i1.Mock implements _i13.LinkRepository {
                   [],
                   {
                     #originalUri: originalUri,
+                    #originalUrlHash: originalUrlHash,
                     #shortenedAlias: shortenedAlias,
                   },
                 ),

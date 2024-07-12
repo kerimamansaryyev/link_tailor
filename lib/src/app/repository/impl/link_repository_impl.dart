@@ -23,13 +23,14 @@ final class LinkRepositoryImpl
   Future<LinkRepositoryCreateShortLinkDTO> createShortLink({
     required Uri originalUri,
     required String shortenedAlias,
+    required String originalUrlHash,
   }) =>
       preventConnectionLeak(
         () => launchSimpleTransaction(
           (tx) async {
             final existingByOriginalUri = await tx.link.findUnique(
               where: LinkWhereUniqueInput(
-                originalUrl: originalUri.toString(),
+                originalUrlHash: originalUrlHash,
               ),
             );
             if (existingByOriginalUri != null) {
@@ -55,6 +56,7 @@ final class LinkRepositoryImpl
             final created = await tx.link.create(
               data: PrismaUnion.$1(
                 LinkCreateInput(
+                  originalUrlHash: originalUrlHash,
                   shortenedAlias: shortenedAlias,
                   originalUrl: originalUri.toString(),
                 ),

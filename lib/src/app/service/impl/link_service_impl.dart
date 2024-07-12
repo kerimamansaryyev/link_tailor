@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:link_tailor/src/app/integration/link_alias_generator.dart';
+import 'package:link_tailor/src/app/integration/link_url_hash_generator.dart';
 import 'package:link_tailor/src/app/integration/server_info_retriever.dart';
 import 'package:link_tailor/src/app/repository/exception/link_repository_create_short_link_exception.dart';
 import 'package:link_tailor/src/app/repository/link_repository.dart';
@@ -14,11 +15,13 @@ final class LinkServiceImpl implements LinkService {
     this._serverInfoRetriever,
     this._linkRepository,
     this._linkAliasGenerator,
+    this._linkUrlHashGenerator,
   );
 
   @visibleForTesting
   static const maxNumberOfAliasGenerateRetries = 10;
 
+  final LinkUrlHashGenerator _linkUrlHashGenerator;
   final ServerInfoRetriever _serverInfoRetriever;
   final LinkRepository _linkRepository;
   final LinkAliasGenerator _linkAliasGenerator;
@@ -36,8 +39,12 @@ final class LinkServiceImpl implements LinkService {
         final generatedAlias = await _linkAliasGenerator.generateAlias(
           originalUri,
         );
+        final generatedUrlHash = await _linkUrlHashGenerator.generateHash(
+          originalUri,
+        );
         final createdLink = await _linkRepository.createShortLink(
           originalUri: originalUri,
+          originalUrlHash: generatedUrlHash,
           shortenedAlias: generatedAlias,
         );
         final serverInfo = _serverInfoRetriever.getServerInfo();
