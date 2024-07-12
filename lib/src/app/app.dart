@@ -15,6 +15,10 @@ final class LinkTailorApp extends GazelleApp {
     required super.port,
   }) : super(
           routes: [
+            GazelleRoute.parameter(
+              name: LinkController.getLinkByAliasPathParameterName,
+              get: linkController.redirectToOriginalByAlias,
+            ),
             GazelleRoute(
               name: 'api',
               children: [

@@ -96,3 +96,16 @@ final class CreateLinkResponse extends BaseResponse<CreateLinkResponseData> {
   @override
   Map<String, dynamic> toJson() => _$CreateLinkResponseToJson(this);
 }
+
+extension type const LinkAliasRedirectResponse._(GazelleResponse<String> res)
+    implements GazelleResponse<String> {
+  LinkAliasRedirectResponse(Uri redirectUri)
+      : this._(
+          GazelleResponse(
+            statusCode: const GazelleHttpStatusCode.custom(303),
+            headers: [
+              GazelleHttpHeader.location.addValue(redirectUri.toString()),
+            ],
+          ),
+        );
+}

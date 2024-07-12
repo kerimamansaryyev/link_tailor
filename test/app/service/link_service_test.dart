@@ -123,8 +123,9 @@ void main() {
                 completion(
                   predicate<LinkServiceGetLinkByAliasSucceeded>(
                     (obj) =>
-                        obj.link.id == existing.id &&
-                        obj.link.originalUrl == existing.expectedUrl,
+                        obj.link.repoEntity.id == existing.id &&
+                        obj.link.originalUrlParsed ==
+                            Uri.parse(existing.expectedUrl),
                   ),
                 ),
               );

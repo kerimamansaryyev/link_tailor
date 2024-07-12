@@ -87,7 +87,10 @@ final class LinkServiceImpl implements LinkService {
     }
 
     return LinkServiceGetLinkByAliasSucceeded(
-      link: result,
+      link: (
+        repoEntity: result,
+        originalUrlParsed: Uri.parse(result.originalUrl)
+      ),
     );
   }
 }
